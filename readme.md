@@ -4,7 +4,7 @@ This project, comprise of an EKS cluster and RDS MySQL Database deployed on AWS 
 
 ![Alt text](./readmeimg/image.png)
 
-The image above is a perfect representation of the architecture and process I ued when deploying the architecture. The application is a simple CRUD application written in JAVA. The CRUD activities is being performed on the MySQL database. 
+The image above is a perfect representation of the architecture and process I used when deploying the architecture. The application is a simple CRUD application written in JAVA. The CRUD activities is being performed on the MySQL database. 
 
 To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
 
