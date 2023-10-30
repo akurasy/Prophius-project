@@ -9,7 +9,8 @@ module "eks" {
   vpc_id = module.vpc.vpc_id
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access = true
-  create_kms_key = false
+  create_kms_key = true
+  kms_key_owners = [ data.aws_caller_identity.current.arn ]
 
   
   iam_role_additional_policies = {
