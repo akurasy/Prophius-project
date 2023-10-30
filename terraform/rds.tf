@@ -1,5 +1,5 @@
 
-resource "random_string" "suffix" {
+resource "random_password" "password" {
   length  = 16
   special = false
 }
@@ -10,7 +10,7 @@ resource "aws_secretsmanager_secret_version" "sversion" {
    {
     "username": "adminaccount",
     "password": "${random_password.password.result}",
-    "endpoint": "${aws_db_instance.default.endpoint.address}"
+    "endpoint": "${aws_db_instance.default.address}"
    }
 EOF
 }
