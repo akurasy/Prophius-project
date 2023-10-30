@@ -8,7 +8,7 @@ The image above is a perfect representation of the architecture and process I us
 
 The concept of the application, involves replicas of kubernetes pods holding the java backend application. Terraform creates a secret manager with a key-value pair object of the database username, password and endpoint  the service account created by kubernetes sill read the values of the secret manager and then pass it as environment variable to the pods that will be created in the cluster.
 
-This ensures safe handling osf secrets values to the pods with out exposing it either in the terraform code, or in the the kubernetes cluster.
+This ensures safe handling of the secrets values to the pods without exposing it either in the terraform code, or in the kubernetes cluster.
 
 To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
 
