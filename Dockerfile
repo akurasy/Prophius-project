@@ -1,11 +1,18 @@
-FROM openjdk:8
-EXPOSE 8080
+FROM maven:alpine as builder
 
-WORKDIR /app
-COPY /src .
+WORKDIR /java-app
 
-COPY pom.xml .
+COPY  /src /java-app/
+COPY pom.xml /java-app
 
 RUN mvn install
+
+FROM openjdk:8
+
+WORKDIR /app
+
+COPY --from=builder /java-app .
+
+EXPOSE 8080
 
 ENTRYPOINT ["java","-jar","/app/springboot-crud-k8s.jar"]
