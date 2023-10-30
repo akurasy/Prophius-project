@@ -7,20 +7,29 @@ This project, comprise of an EKS cluster and RDS MySQL Database deployed on AWS 
 The image above is a perfect representation of the architecture and process I used when deploying the architecture. The application is a simple CRUD application written in JAVA. The CRUD activities is being performed on the MySQL database. 
 
 To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
-
-1. Navigate to the Terraform directory
+1. Update your server and create a working directory. Pls note we will be deploying this application on ubuntu server
 
 ```
-cd terraform
+sudo apt update -y
+mkdir Project
+cd Project
 ```
 
-2. Initialize terraform
+2. Initialize git in the working directory and clone the repo. for
+
+```
+git init
+git clone https://github.com/akurasy/Prophius-project.git
+``` 
+
+
+3. Initialize terraform in the working directory
 
 ```
 terraform init
 ```
 
-3. Apply Terraform code
+4. Apply Terraform code
 
 ```
 terraform apply -auto-approve
