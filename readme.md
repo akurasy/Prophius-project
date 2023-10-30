@@ -25,9 +25,10 @@ cd Prophius-project
 ``` 
 
 
-3. Initialize terraform in the working directory
+3. Initialize terraform in the terraform working directory
 
 ```
+cd terraform
 terraform init
 ```
 
