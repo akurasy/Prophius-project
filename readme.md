@@ -7,6 +7,7 @@ This project, comprise of an EKS cluster and RDS MySQL Database deployed on AWS 
 The image above is a perfect representation of the architecture and process I used when deploying the architecture. The application is a simple CRUD application written in JAVA. The CRUD activities is being performed on the MySQL database. 
 
 To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
+
 1. Update your server and create a working directory. Pls note we will be deploying this application on ubuntu server
 
 ```
@@ -38,6 +39,7 @@ terraform apply -auto-approve
 ```
 
 
+
 5. Install Docker and make ubuntu user docker owner. pls note this docker installation is for Ubuntu server 
 
 ```
@@ -57,16 +59,17 @@ sudo su - ubuntu
 docker build -t prophius-project-image .
 ```
 
+
 6. Authenticate Docker to your ECR repository: run the command below
 
 ```
-
 # aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
 
 aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 166937434313.dkr.ecr.us-west-1.amazonaws.com
 
 # Pls edit with desired aws region and account ID.s
 ```
+
 
 7. Tag your docker image
 
@@ -75,6 +78,7 @@ aws ecr get-login-password --region us-west-2 | docker login --username AWS --pa
 
 docker tag prophius-project-image 166937434313.dkr.ecr.us-west-2.amazonaws.com/Prophius-Project-image:latest
 ```
+
 
 8. Push the built docker image to amazon ECR. Pls note this ECR has been created with terraform
 
@@ -85,12 +89,12 @@ docker push 166937434313.dkr.ecr.us-west-2.amazonaws.com/Prophius-Project-image:
 ```
 
 
-
 9. Configure kubectl 
 
 ```
 aws eks --region us-west-2 update-kubeconfig --name Prophious-Project
 ```
+
 
 10. Apply the applications configuration and pods
 
@@ -101,15 +105,17 @@ aws eks --region us-west-2 update-kubeconfig --name Prophious-Project
 #goto AWS console, under ecr and copy the image name
 #edit the springboot.yaml file and under the spec for the pod, goto containers and paste the image name, then run the command below:
 ```
-```
 
+```
 kubectl apply -f .
 ```
 
 The kubenetes archtecture creates a service account and configures a service provider created by terraform. This is needed for the pods to safely get the database password and username from the secret manager.
 
 
+
 11. Browse the deployed application by copying the url of the eks land balancer and browse on your local machine. ensure ingress rule is enable for port 80 which uses http protocol.
+
 
 ```
 kubectl get all -o wide
@@ -117,11 +123,10 @@ kubectl get all -o wide
 # This command gives all information about the cluster and you can copy the load balancer url and browse on your local machine.
 ```
 
+
 12. For cleanup to destroy all created infrastructure, run the following commands
-
-
+ 
 ```
-
 terraform destroy -auto-approve
 kubectl delete -f .
 ```
