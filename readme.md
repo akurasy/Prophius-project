@@ -54,19 +54,74 @@ sudo usermod -aG docker ubuntu
 sudo su - ubuntu
 
 # build the image
-docker build -t <ecr-image> .
+docker build -t prophius-project-image .
 ```
 
-6. Configure kubectl 
+6. Authenticate Docker to your ECR repository: run the command below
+
+```
+
+# aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
+
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 166937434313.dkr.ecr.us-west-1.amazonaws.com
+
+# Pls edit with desired aws region and account ID.s
+```
+
+7. Tag your docker image
+
+```
+#docker tag <your-image-name> <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-ecr-repository>:<your-tag>
+
+docker tag prophius-project-image 166937434313.dkr.ecr.us-west-2.amazonaws.com/Prophius-Project-image:latest
+```
+
+8. Push the built docker image to amazon ECR. Pls note this ECR has been created with terraform
+
+```
+# docker push <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-ecr-repository>:<your-tag>
+
+docker push 166937434313.dkr.ecr.us-west-2.amazonaws.com/Prophius-Project-image:latest
+```
+
+
+
+9. Configure kubectl 
 
 ```
 aws eks --region us-west-2 update-kubeconfig --name Prophious-Project
 ```
 
-Apply the applications configuration and pods
+10. Apply the applications configuration and pods
 
 ```
+
+# Before you apply the application, Pls edit the deployment yaml file (sprinboot.yaml) to the appropriate image name. # Under the spec parameters for the pod, edit the image which is a child of containers to the appropriate image name copied from the ECR repository. 
+
+#goto AWS console, under ecr and copy the image name
+#edit the springboot.yaml file and under the spec for the pod, goto containers and paste the image name, then run the command below:
+```
+```
+
 kubectl apply -f .
 ```
 
 The kubenetes archtecture creates a service account and configures a service provider created by terraform. This is needed for the pods to safely get the database password and username from the secret manager.
+
+
+11. Browse the deployed application by copying the url of the eks land balancer and browse on your local machine. ensure ingress rule is enable for port 80 which uses http protocol.
+
+```
+kubectl get all -o wide
+
+# This command gives all information about the cluster and you can copy the load balancer url and browse on your local machine.
+```
+
+12. For cleanup to destroy all created infrastructure, run the following commands
+
+
+```
+
+terraform destroy -auto-approve
+kubectl delete -f .
+```
