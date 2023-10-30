@@ -23,15 +23,11 @@ terraform init
 3. Apply Terraform code
 
 ```
-terraform apply
+terraform apply -auto-approve
+
+#The previous command will create the eks cluster and the msql database. Next is to push an image to the ECR repository created. The url is in the terraform outputs
 ```
 
-4. The previous command will create the eks cluster and the msql database. Next is to push an image to the ECR repository created. The url is in the terraform outputs
-
-```
-# build the image
-docker build -t <ecr-image> .
-```
 
 5. Install Docker and make ubuntu user docker owner. pls note this docker installation is for Ubuntu server 
 
@@ -47,6 +43,9 @@ sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
 sudo su - ubuntu
+
+# build the image
+docker build -t <ecr-image> .
 ```
 
 6. Configure kubectl 
