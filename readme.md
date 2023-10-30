@@ -1,4 +1,4 @@
-# Prophisous Project
+# Prophius Project
 
 This project, comprise of an EKS cluster and RDS MySQL Database deployed on AWS incorporated with AWS networking best practices and security practices when deploying this. The project performs the entire process using Terraform to automate the process of creating the resources. 
 
@@ -7,6 +7,8 @@ This project, comprise of an EKS cluster and RDS MySQL Database deployed on AWS 
 The image above is a perfect representation of the architecture and process I used when deploying the architecture. The application is a simple CRUD application written in JAVA. The CRUD activities is being performed on the MySQL database. 
 
 The concept of the application, involves replicas of kubernetes pods holding the java backend application. Terraform creates a secret manager with a key-value pair object of the database username, password and endpoint  the service account created by kubernetes sill read the values of the secret manager and then pass it as environment variable to the pods that will be created in the cluster.
+
+This ensures safe handling osf secrets values to the pods with out exposing it either in the terraform code, or in the the kubernetes cluster.
 
 To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
 
