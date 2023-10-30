@@ -21,6 +21,7 @@ cd Project
 ```
 git init
 git clone https://github.com/akurasy/Prophius-project.git
+cd Prophius-project
 ``` 
 
 
