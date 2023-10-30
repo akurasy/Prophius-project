@@ -6,6 +6,8 @@ This project, comprise of an EKS cluster and RDS MySQL Database deployed on AWS 
 
 The image above is a perfect representation of the architecture and process I used when deploying the architecture. The application is a simple CRUD application written in JAVA. The CRUD activities is being performed on the MySQL database. 
 
+The concept of the application, involves replicas of kubernetes pods holding the java backend application. Terraform creates a secret manager with a key-value pair object of the database username, password and endpoint  the service account created by kubernetes sill read the values of the secret manager and then pass it as environment variable to the pods that will be created in the cluster.
+
 To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
 
 1. Update your server and create a working directory. Pls note we will be deploying this application on ubuntu server
@@ -102,7 +104,8 @@ aws eks --region us-west-2 update-kubeconfig --name Prophious-Project
 
 ```
 
-# Before you apply the application, Pls edit the deployment yaml file (sprinboot.yaml) to the appropriate image name. # Under the spec parameters for the pod, edit the image which is a child of containers to the appropriate image name copied from the ECR repository. 
+# Before you apply the application, Pls edit the deployment yaml file (sprinboot.yaml) to the appropriate image name. # Under the spec parameters for the pod, edit the image which is a child of containers to the appropriate image name copied from the ECR repository.
+Also ensure to add the AWS account ID in the `service-account.yml` file to enable the OIDC connection for the EkS pods to connect to secrets manager and get secrets values from there.
 
 #goto AWS console, under ecr and copy the image name
 #edit the springboot.yaml file and under the spec for the pod, goto containers and paste the image name, then run the command below:
