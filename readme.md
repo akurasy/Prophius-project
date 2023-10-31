@@ -12,6 +12,7 @@ This ensures safe handling of the secrets values to the pods without exposing it
 
 To deploy this application, ensure that you have the requirements in the table below installed on the host machine before deploying the application.
 
+|Installation|Required |
 | ------------- | ------------- |
 | AWS CLI Configured  | :heavy_check_mark:  |
 | Docker Installed  | :heavy_check_mark:  |
