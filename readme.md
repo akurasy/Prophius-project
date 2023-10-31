@@ -19,6 +19,7 @@ To deploy this application, ensure that you have the requirements in the table b
 | Terraform Installed | :heavy_check_mark: |
 | Java Installed | :heavy_check_mark: |
 | Maven Installed| :heavy_check_mark: |
+| kubectl instlled | :heavey_check_mark: |
 
 Update your server and create a working directory. Pls note we will be deploying this application on ubuntu server
 
