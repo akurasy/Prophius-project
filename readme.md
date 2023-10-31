@@ -10,9 +10,16 @@ The concept of the application, involves replicas of kubernetes pods holding the
 
 This ensures safe handling of the secrets values to the pods without exposing it either in the terraform code, or in the kubernetes cluster.
 
-To deploy this application, ensure that you have AWS CLI and Terraform installed on the host machine. Follow the steps below to deploy the application.
+To deploy this application, ensure that you have the requirements in the table below installed on the host machine before deploying the application.
 
-1. Update your server and create a working directory. Pls note we will be deploying this application on ubuntu server
+| ------------- | ------------- |
+| AWS CLI Configured  | :heavy_check_mark:  |
+| Docker Installed  | :heavy_check_mark:  |
+| Terraform Installed | :heavy_check_mark: |
+| Java Installed | :heavy_check_mark: |
+| Maven Installed| :heavy_check_mark: |
+
+Update your server and create a working directory. Pls note we will be deploying this application on ubuntu server
 
 ```
 sudo apt update -y
@@ -20,7 +27,7 @@ mkdir Project
 cd Project
 ```
 
-2. Initialize git in the working directory and clone the repo. for
+Initialize git in the working directory and clone the repo. for
 
 ```
 git init
@@ -29,14 +36,14 @@ cd Prophius-project
 ``` 
 
 
-3. Initialize terraform in the terraform working directory
+Initialize terraform in the terraform working directory
 
 ```
 cd terraform
 terraform init
 ```
 
-4. Apply Terraform code
+Apply Terraform code
 
 ```
 terraform apply -auto-approve
@@ -45,8 +52,7 @@ terraform apply -auto-approve
 ```
 
 
-
-5. Install Docker and make ubuntu user docker owner. pls note this docker installation is for Ubuntu server 
+Install Docker and make ubuntu user docker owner. pls note this docker installation is for Ubuntu server 
 
 ```
 sudo apt update
@@ -61,12 +67,17 @@ sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
 sudo su - ubuntu
 
+# Build the Java Application
+```
+ mvn install -q -Dmaven.test.skip=true
+```
+
 # build the image
 docker build -t prophius-project-image .
 ```
 
 
-6. Authenticate Docker to your ECR repository: run the command below
+Authenticate Docker to your ECR repository: run the command below
 
 ```
 # aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
@@ -77,7 +88,7 @@ aws ecr get-login-password --region us-west-2 | docker login --username AWS --pa
 ```
 
 
-7. Tag your docker image
+Tag your docker image
 
 ```
 #docker tag <your-image-name> <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-ecr-repository>:<your-tag>
@@ -86,7 +97,7 @@ docker tag prophius-project-image 166937434313.dkr.ecr.us-west-2.amazonaws.com/P
 ```
 
 
-8. Push the built docker image to amazon ECR. Pls note this ECR has been created with terraform
+Push the built docker image to amazon ECR. Pls note this ECR has been created with terraform
 
 ```
 # docker push <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-ecr-repository>:<your-tag>
@@ -95,14 +106,14 @@ docker push 166937434313.dkr.ecr.us-west-2.amazonaws.com/Prophius-Project-image:
 ```
 
 
-9. Configure kubectl 
+Configure kubectl 
 
 ```
 aws eks --region us-west-2 update-kubeconfig --name Prophious-Project
 ```
 
 
-10. Apply the applications configuration and pods
+Apply the applications configuration and pods
 
 ```
 
@@ -121,7 +132,7 @@ The kubenetes archtecture creates a service account and configures a service pro
 
 
 
-11. Browse the deployed application by copying the url of the eks land balancer and browse on your local machine. ensure ingress rule is enable for port 80 which uses http protocol.
+Browse the deployed application by copying the url of the eks land balancer and browse on your local machine. ensure ingress rule is enable for port 80 which uses http protocol.
 
 
 ```
@@ -130,8 +141,7 @@ kubectl get all -o wide
 # This command gives all information about the cluster and you can copy the load balancer url and browse on your local machine.
 ```
 
-
-12. For cleanup to destroy all created infrastructure, run the following commands
+For cleanup to destroy all created infrastructure, run the following commands
  
 ```
 terraform destroy -auto-approve
