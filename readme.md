@@ -55,25 +55,14 @@ terraform apply -auto-approve
 
 Install Docker and make ubuntu user docker owner. pls note this docker installation is for Ubuntu server 
 
-```
-sudo apt update
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-echo "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker ubuntu
-sudo su - ubuntu
 
-# Build the Java Application
+ Build the Java Application
 ```
  mvn install -q -Dmaven.test.skip=true
 ```
 
-# build the image
+build the image
+```
 docker build -t prophius-project-image .
 ```
 
@@ -81,7 +70,6 @@ docker build -t prophius-project-image .
 Authenticate Docker to your ECR repository: run the command below
 
 ```
-# aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
 
 aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 166937434313.dkr.ecr.us-west-1.amazonaws.com
 
