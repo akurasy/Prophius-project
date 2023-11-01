@@ -122,7 +122,7 @@ The kubenetes archtecture creates a service account and configures a service pro
 
 
 
-Browse the deployed application by copying the url of the eks land balancer and browse on your local machine. ensure ingress rule is enable for port 80 which uses http protocol.
+Browse the deployed application by copying the url of the eks load balancer and browse on your local machine. ensure ingress rule is enable for port 80 which uses http protocol.
 
 
 ```
